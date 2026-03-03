@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="en" class="mdl-js"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><style type="text/css">.turbo-progress-bar {
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: #0076ff;
+  z-index: 2147483647;
+  transition:
+    width 300ms ease-out,
+    opacity 150ms 150ms ease-in;
+  transform: translate3d(0, 0, 0);
+}
+</style><style type="text/css" data-tag-name="trix-editor">trix-editor {
+    display: block;
+}
+
+trix-editor:empty:not(:focus)::before {
+    content: attr(placeholder);
+    color: graytext;
+    cursor: text;
+    pointer-events: none;
+    white-space: pre-line;
+}
+
+trix-editor a[contenteditable=false] {
+    cursor: text;
+}
+
+trix-editor img {
+    max-width: 100%;
+    height: auto;
+}
+
+trix-editor [data-trix-attachment] figcaption textarea {
+    resize: none;
+}
+
+trix-editor [data-trix-attachment] figcaption textarea.trix-autoresize-clone {
+    position: absolute;
+    left: -9999px;
+    max-height: 0px;
+}
+
+trix-editor [data-trix-attachment] figcaption[data-trix-placeholder]:empty::before {
+    content: attr(data-trix-placeholder);
+    color: graytext;
+}
+
+trix-editor [data-trix-cursor-target] {
+    display: inline-block !important;
+    width: 1px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+}
+
+trix-editor [data-trix-cursor-target=left] {
+    vertical-align: top !important;
+    margin-left: -1px !important;
+}
+
+trix-editor [data-trix-cursor-target=right] {
+    vertical-align: bottom !important;
+    margin-right: -1px !important;
+}</style><style type="text/css" data-tag-name="trix-toolbar">trix-toolbar {
+  display: block;
+}
+
+trix-toolbar {
+  white-space: nowrap;
+}
+
+trix-toolbar [data-trix-dialog] {
+  display: none;
+}
+
+trix-toolbar [data-trix-dialog][data-trix-active] {
+  display: block;
+}
+
+trix-toolbar [data-trix-dialog] [data-trix-validate]:invalid {
+  background-color: #ffdddd;
+}</style>
+<title>Hello Node Kubernetes | Google Skills</title>
+<link crossorigin="" href="https://cdn.qwiklabs.com/" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect">
+<link crossorigin="" href="https://fonts.googleapis.com/" rel="preconnect">
+<link as="font" crossorigin="anonymous" href="https://cdn.qwiklabs.com/fonts/google-symbols.woff2" rel="preload" type="font/woff2">
+<link as="font" crossorigin="anonymous" href="https://cdn.qwiklabs.com/fonts/material-icons.woff2" rel="preload" type="font/woff2">
+<link as="font" crossorigin="anonymous" href="https://cdn.qwiklabs.com/fonts/google-material-icons.woff2" rel="preload" type="font/woff2">
+<style>
+  @mixin font_face_props {
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+  }
+  
+  @font-face {
+    @include font_face_props;
+  
+    font-family: 'Google Material Icons';
+    src: url('https://cdn.qwiklabs.com/fonts/google-material-icons.woff2') format('woff2');
+  }
+  
+  @font-face {
+    @include font_face_props;
+  
+    font-family: 'Material Icons';
+    src: url('https://cdn.qwiklabs.com/fonts/material-icons.woff2') format('woff2');
+  }
+  
+  @font-face {
+    @include font_face_props;
+  
+    font-family: 'Google Symbols';
+    src: url('https://cdn.qwiklabs.com/fonts/google-symbols.woff2') format('woff2');
+  }
+  
+  .material-icons {
+    font-family: 'Material Icons';
+  }
+  
+  .google-symbols {
+    font-family: 'Google Symbols';
+  }
+  
+  .google-material-icons {
+    font-family: 'Google Material Icons';
+  }
+  
+  .material-icons,
+  .google-symbols,
+  .google-material-icons {
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+  }
+</style>
+
+<meta name="action-cable-url" content="/cable">
+<script type="text/javascript" async="" src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/js"></script><script async="" src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/gtm.js"></script><script type="text/javascript" async="" charset="utf-8" src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/recaptcha__en.js" crossorigin="anonymous" integrity="sha384-DNsk1l2N8IJMT/1D2GaYe7/7wf4BKkES+NGns242eIkpk/PIUnpeVsUuno96AxVX"></script><script type="text/javascript" async="" charset="utf-8" src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/recaptcha__en.js" crossorigin="anonymous" integrity="sha384-DNsk1l2N8IJMT/1D2GaYe7/7wf4BKkES+NGns242eIkpk/PIUnpeVsUuno96AxVX"></script><script>
+//<![CDATA[
+window.gon={};gon.deployment="google-run";
+//]]>
+</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  const properties = JSON.parse(atob('eyJsb2NhbGUiOiJlbiIsInVzZXJfcm9sZXMiOiJzdHVkZW50IiwiZmVhdHVyZV9nYW1pZmljYXRpb25fdWkiOnRydWUsImZlYXR1cmVfZ2FtaWZpY2F0aW9uX2xlYWRlcmJvYXJkcyI6dHJ1ZSwiZmVhdHVyZV9yZWxhdW5jaF9ncmlkX2xpc3QiOmZhbHNlLCJmZWF0dXJlX3Nob3dfb3JnX2NhdGFsb2dfYnV0dG9uIjp0cnVlLCJmZWF0dXJlX29ucmFtcCI6dHJ1ZSwiZmVhdHVyZV9yZXJvdXRlX25ld19pbnRlcnZpZXdfd2FybXVwIjp0cnVlLCJmZWF0dXJlX2luX2NvbnRleHRfYWxsX2xhYnMiOnRydWUsImZlYXR1cmVfcmVsYXVuY2hfZm9yX3NzbyI6dHJ1ZSwiZmVhdHVyZV91c2VfbW9zYWljIjp0cnVlLCJmZWF0dXJlX2Nhbm9uaWNhbF9kb21haW5fcmVkaXJlY3QiOnRydWUsImZlYXR1cmVfZG9jZWJvX3N5bmNfb3JnX3N1cHBvcnQiOnRydWUsImZlYXR1cmVfcmVsYXVuY2hfc3Vic2NyaXB0aW9ucyI6dHJ1ZSwiZmVhdHVyZV9nd2dfY2F0YWxvZyI6dHJ1ZSwiZmVhdHVyZV9yZWxhdW5jaF9leHRyYSI6dHJ1ZSwiZmVhdHVyZV9zd2l0Y2hfcGF0aF9hbmRfZXhwbG9yZV9oZWFkZXJzIjp0cnVlLCJmZWF0dXJlX2lubm92YXRvcl9nZWFyX3NpZ25faW4iOnRydWUsImZlYXR1cmVfc3NvX3JlZGlyZWN0Ijp0cnVlLCJmZWF0dXJlX2Zyb250X2Rvb3JfbGFuZGluZ19wYWdlIjp0cnVlLCJmZWF0dXJlX2dhbWlmaWNhdGlvbl9hY2hpZXZlbWVudHMiOnRydWUsImZlYXR1cmVfcmVsYXVuY2hfY29sbGVjdGlvbl9haSI6dHJ1ZSwiZmVhdHVyZV9lbnRpdHlfYXBpX2tleXMiOnRydWUsImZlYXR1cmVfbW9zYWljX3NraWxsc19sYWJfcmVjb21tZW5kYXRpb24iOnRydWUsImZlYXR1cmVfc2l0ZW1hcF9wb2MiOnRydWUsImZlYXR1cmVfaW5ub3ZhdG9yX3NpZ25faW4iOnRydWUsImZlYXR1cmVfZG9jZWJvX3V4Ijp0cnVlLCJmZWF0dXJlX2NyZWRseV9pbnRlZ3JhdGlvbl9hbm5vdW5jZW1lbnRfbW9kYWwiOnRydWUsImZlYXR1cmVfaW50ZXJ2aWV3X3dhcm11cF90dXJuZG93biI6dHJ1ZSwiZmVhdHVyZV9kb2NlYm9fc3luYyI6dHJ1ZSwiZmVhdHVyZV9hbGV4YW5kcmlhX3Nob3dfYnVuZGxlX2Vycm9ycyI6ZmFsc2UsImZlYXR1cmVfaW5fY29udGV4dF92aWV3Ijp0cnVlLCJmZWF0dXJlX3VzZV9kb2NlYm9fZmVhdHVyZXMiOnRydWUsImZlYXR1cmVfbmV3X29yZ19kYXNoYm9hcmQiOmZhbHNlLCJmZWF0dXJlX2NyZWRseSI6dHJ1ZSwiZmVhdHVyZV9vbmVfdGFwIjp0cnVlLCJmZWF0dXJlX2F1dG9fY291cnNlX3VwZ3JhZGUiOmZhbHNlLCJmZWF0dXJlX2NvdXJzZV9idWlsZGVyIjpmYWxzZSwiZmVhdHVyZV9zZWFyY2hfc3VnZ2VzdGlvbnMiOnRydWUsImZlYXR1cmVfY2hhbGxlbmdlX2xhYl9mYXN0X3RyYWNrIjp0cnVlLCJmZWF0dXJlX2xlYXJuaW5nX3BsYW5fc2x1ZyI6dHJ1ZSwiZmVhdHVyZV9jaGltZV91c2VfYWJ1c2VfZGV0YWlscyI6ZmFsc2UsImZlYXR1cmVfcmVtb3ZlX2dkcF9zdWJzY3JpcHRpb24iOnRydWUsImZlYXR1cmVfaWx0X2NvbnRlbnRfcHJvZ3JhbSI6ZmFsc2UsImZlYXR1cmVfc2VhcmNoX2F1dG9jb21wbGV0ZSI6dHJ1ZSwiZmVhdHVyZV9sYWJfYWlfaGludHMiOmZhbHNlLCJmZWF0dXJlX3NlYXJjaF9zb3J0X2J5Ijp0cnVlLCJmZWF0dXJlX2d1ZXN0X3VzZXIiOmZhbHNlLCJmZWF0dXJlX3N1YnNjcmlwdGlvbl91eCI6dHJ1ZSwiZmVhdHVyZV9zc29faW50ZWdyYXRpb25fYWNjZXNzX2FsbG93bGlzdCI6ZmFsc2UsImZlYXR1cmVfdHVyYm8iOmZhbHNlLCJmZWF0dXJlX2FnZV9nYXRlX3Jlc2V0IjpmYWxzZSwiZmVhdHVyZV9sYW5kaW5nX3BhZ2UiOnRydWUsImZlYXR1cmVfZ2FtaWZpY2F0aW9uIjp0cnVlLCJmZWF0dXJlX2djc2JvX2RvbWFpbl9yZWRpcmVjdCI6ZmFsc2UsImZlYXR1cmVfb3JnX2ludml0ZV9saW5rIjp0cnVlLCJmZWF0dXJlX29hdXRoX3Jpc2Nfc2h1dG9mZiI6dHJ1ZSwiZmVhdHVyZV9yZWxhdW5jaCI6dHJ1ZSwiZmVhdHVyZV9sZWFybmluZ19wbGFuX3NlYXJjaCI6dHJ1ZSwiZmVhdHVyZV9yZWxhdW5jaF9lbWVyZ2VuY3lfYnV0dG9uIjpmYWxzZSwiZmVhdHVyZV9jZG5fZm9udHMiOnRydWUsImZlYXR1cmVfaGlkZV91bnBvcHVsYXJfZmlsdGVycyI6dHJ1ZSwiZmVhdHVyZV9nYW1pZmljYXRpb25feHAiOnRydWUsImZlYXR1cmVfY2F0YWxvZ19maWx0ZXJzX2J1dHRvbiI6dHJ1ZSwiZmVhdHVyZV9iYW5uZXJfYnJlYWRjcnVtYnMiOnRydWUsImZlYXR1cmVfZ2FtaWZpY2F0aW9uX2xlYWd1ZXMiOnRydWUsImZlYXR1cmVfc2hvd19uZXdfY291cnNlX2V4YW1zIjp0cnVlLCJmZWF0dXJlX25vX2x0aV9zZXNzaW9uX3JlZGlyZWN0IjpmYWxzZSwiZmVhdHVyZV93aXBlb3V0X2hhcmRfZGVsZXRlIjp0cnVlLCJmZWF0dXJlX2NhY2hlX2V4cGxvcmVfcGFnZV9yZXN1bHQiOnRydWUsImZlYXR1cmVfY291cnNlX2V4YW1zIjp0cnVlLCJmZWF0dXJlX2dhbWlmaWNhdGlvbl9zdHJlYWtzIjp0cnVlLCJmZWF0dXJlX2NhdGFsb2dfZmlsdGVyX2NoaXBzIjp0cnVlLCJmZWF0dXJlX2dhbWlmaWNhdGlvbl91aV9kYXRhIjp0cnVlLCJmZWF0dXJlX2NyZWRseV9tYW5hZ2VtZW50IjpmYWxzZSwiZmVhdHVyZV9yZXBvcnRfcGFyZW50cyI6ZmFsc2UsImZlYXR1cmVfZmVlZGJhY2siOnRydWUsImZlYXR1cmVfZ29vZ2xlX2Rldl9wYXltZW50Ijp0cnVlLCJmZWF0dXJlX2Rhc2hib2FyZF9qb2JzIjp0cnVlLCJmZWF0dXJlX25rX3JvbGxiYWNrX3ZlcnNpb24iOmZhbHNlLCJmZWF0dXJlX2Rpc2NvdmVyeV9sYWJfZHVyYXRpb25fZXN0aW1hdGUiOnRydWUsImZlYXR1cmVfcmVsYXVuY2hfY3JlZGVudGlhbHMiOmZhbHNlLCJmZWF0dXJlX2xhYl9leHBhbmRlZF9oaW50IjpmYWxzZSwiZmVhdHVyZV9zZWFyY2hfYXN5bmMiOnRydWUsImZlYXR1cmVfYWxleGFuZHJpYV9zdWJzY3JpcHRpb25zX3BhZ2luYXRpb24iOnRydWUsImdyb3VwX3N1YWRtaW5zIjpmYWxzZSwiZ3JvdXBfbm9uX3N1YWRtaW5zIjp0cnVlLCJncm91cF9hZG1pbnMiOmZhbHNlLCJncm91cF90cmFpbmVycyI6ZmFsc2UsImdyb3VwX2Nvb3JkaW5hdG9ycyI6ZmFsc2UsImdyb3VwX2NyZWF0b3JzIjpmYWxzZSwiZ3JvdXBfc3R1ZGVudHMiOnRydWUsImdyb3VwX25vbl9vcmdhbml6YXRpb24iOnRydWUsImdyb3VwX29yZ2FuaXphdGlvbl9tZW1iZXJzIjpmYWxzZSwiZ3JvdXBfbm9uX3Byb2dyYW0iOnRydWUsImdyb3VwX2dvb2dsZXJzIjpmYWxzZSwiZ3JvdXBfQ0xTIjpmYWxzZSwiZ3JvdXBfZW5nX3Byb2R1Y3QiOmZhbHNlLCJncm91cF9nYW1pZmljYXRpb25fYmV0YV90ZXN0ZXJzIjpmYWxzZX0='));
+  properties.event = 'user_properties';
+  dataLayer.push(properties);
+</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    if (arguments[0] === 'event') {
+      dataLayer.push({ event: arguments[1], eventParams: arguments[2] }, { eventParams: undefined });
+    } else {
+      dataLayer.push(arguments);
+    }
+  }
+  let gtmLoaded = false;
+  function glueCookieNotificationBarLoaded() {
+    if (!gtmLoaded) {
+      dataLayerInit(
+        true,
+        false,
+        false,
+        false,
+        'google-run'
+      );
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer',"GTM-MBRHNDG7");
+      pushPageEvent();
+      if (typeof sessEvent !== 'undefined') {
+        pushSessionEvent(sessEvent, sessLoginStatus, sessPreviousPath);
+      }
+      gtmLoaded = true;
+    }
+  }
+</script>
+<script src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/webcomponents-loader-2e147cb1679d97581f981243bfc2d1c03dc34a58.js"></script>
+<script src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/head_scripts-78121e337319c81329ed63eb61196ea57f74a57d.js"></script>
+<script src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/vendor-64a8f00d2c4f7491d2e5c39e6914bd8b28b18fbe.js"></script>
+<script src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/application-5104d8437c7c8afdb367240f0d767295aa20534a.js"></script><script src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/loader.js"></script><style>:root {
+  --game-color: #E52592;
+  --classroom-color: #01877E;
+  --external-course-color: #D56E0C;
+  --certification-color: #C5221F;
+}
+
+abbr[title],
+abbr[data-original-title] {
+  border-bottom: none !important;
+}
+
+label abbr[title] {
+  color: var(--primary-text-on-surface-color);
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--hairline-color);
+  display: block;
+  height: 1px;
+  margin: 24px 0;
+  padding: 0;
+}
+
+mark {
+  background-color: #F9AB00;
+  border-radius: 2px;
+  color: inherit;
+  padding: 2px 0px;
+}
+
+p, li {
+  font: var(--md-sys-typescale-body-large);
+}
+
+._small-label_1gdx7_37,
+._label--small_1gdx7_38 {
+  font: var(--md-sys-typescale-body-medium);
+  text-decoration: none;
+}
+
+strong {
+  font-weight: 700;
+}
+
+._mdl-typography--small-title_1gdx7_47 {
+  color: #202124;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+._text--blue_1gdx7_53 {
+  color: var(--primary-text-on-surface-color);
+}
+
+._text--center_1gdx7_57 {
+  text-align: center;
+}
+
+._text--capitalize_1gdx7_61 {
+  text-transform: capitalize;
+}
+
+._text--code_1gdx7_65 {
+  font-family: "Roboto Mono", monospace;
+}
+
+._text--copy_1gdx7_69 {
+  font-family: var(--md-ref-typeface-plain);
+}
+
+._text--error_1gdx7_73 {
+  color: var(--warn-color);
+}
+
+._text--free_1gdx7_77 {
+  color: var(--success-color);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+._text--gray_1gdx7_83 {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+._text--light_1gdx7_87 {
+  color: var(--light-text-on-surface-color) !important;
+}
+
+._text--right_1gdx7_91 {
+  text-align: right;
+}
+
+._text--sign_1gdx7_95 {
+  font-family: "Oswald", sans-serif;
+}
+
+._text--small_1gdx7_99 {
+  font-size: 14px !important;
+}
+
+._text--large_1gdx7_103 {
+  font-size: 20px !important;
+}
+
+._text--success_1gdx7_107 {
+  color: var(--success-color) !important;
+}
+
+._text--yellow_1gdx7_111 {
+  color: #F9AB00;
+}
+
+._text--red_1gdx7_115 {
+  color: #D93025;
+}
+
+._text--green_1gdx7_119 {
+  color: #34A853;
+}
+
+u {
+  text-decoration: none;
+}
+
+._material-icons_1gdx7_127 {
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px; /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  font-feature-settings: "liga";
+}
+
+._ellipsis_1gdx7_149 {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+._text--rtl_1gdx7_155 {
+  direction: rtl;
+}
+
+._body-wrapper_1gdx7_159 {
+  max-width: 800px;
+}
+
+._text--button_1gdx7_163 {
+  font: var(--md-sys-typescale-label-large);
+}</style>
+<script src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/hallofmirrors-2d8abaf8866d7a353bb6fb0ef51c2d7dfaf1370f.js"></script>
+<custom-style>
+  <style is="custom-style">[hidden] {
+  display: none !important;
+}
+
+</style>
+</custom-style>
+<custom-style>
+  <style is="custom-style">html {
+  --layout_-_display:  flex;;
+
+      --layout-inline_-_display:  inline-flex;;
+
+      --layout-horizontal_-_display:  var(--layout_-_display); --layout-horizontal_-_-ms-flex-direction:  row; --layout-horizontal_-_-webkit-flex-direction:  row; --layout-horizontal_-_flex-direction:  row;;
+
+      --layout-horizontal-reverse_-_display:  var(--layout_-_display); --layout-horizontal-reverse_-_-ms-flex-direction:  row-reverse; --layout-horizontal-reverse_-_-webkit-flex-direction:  row-reverse; --layout-horizontal-reverse_-_flex-direction:  row-reverse;;
+
+      --layout-vertical_-_display:  var(--layout_-_display); --layout-vertical_-_-ms-flex-direction:  column; --layout-vertical_-_-webkit-flex-direction:  column; --layout-vertical_-_flex-direction:  column;;
+
+      --layout-vertical-reverse_-_display:  var(--layout_-_display); --layout-vertical-reverse_-_-ms-flex-direction:  column-reverse; --layout-vertical-reverse_-_-webkit-flex-direction:  column-reverse; --layout-vertical-reverse_-_flex-direction:  column-reverse;;
+
+      --layout-wrap_-_-ms-flex-wrap:  wrap; --layout-wrap_-_-webkit-flex-wrap:  wrap; --layout-wrap_-_flex-wrap:  wrap;;
+
+      --layout-wrap-reverse_-_-ms-flex-wrap:  wrap-reverse; --layout-wrap-reverse_-_-webkit-flex-wrap:  wrap-reverse; --layout-wrap-reverse_-_flex-wrap:  wrap-reverse;;
+
+      --layout-flex-auto_-_-ms-flex:  1 1 auto; --layout-flex-auto_-_-webkit-flex:  1 1 auto; --layout-flex-auto_-_flex:  1 1 auto;;
+
+      --layout-flex-none_-_-ms-flex:  none; --layout-flex-none_-_-webkit-flex:  none; --layout-flex-none_-_flex:  none;;
+
+      --layout-flex_-_-ms-flex:  1 1 0.000000001px; --layout-flex_-_-webkit-flex:  1; --layout-flex_-_flex:  1; --layout-flex_-_-webkit-flex-basis:  0.000000001px; --layout-flex_-_flex-basis:  0.000000001px;;
+
+      --layout-flex-2_-_-ms-flex:  2; --layout-flex-2_-_-webkit-flex:  2; --layout-flex-2_-_flex:  2;;
+
+      --layout-flex-3_-_-ms-flex:  3; --layout-flex-3_-_-webkit-flex:  3; --layout-flex-3_-_flex:  3;;
+
+      --layout-flex-4_-_-ms-flex:  4; --layout-flex-4_-_-webkit-flex:  4; --layout-flex-4_-_flex:  4;;
+
+      --layout-flex-5_-_-ms-flex:  5; --layout-flex-5_-_-webkit-flex:  5; --layout-flex-5_-_flex:  5;;
+
+      --layout-flex-6_-_-ms-flex:  6; --layout-flex-6_-_-webkit-flex:  6; --layout-flex-6_-_flex:  6;;
+
+      --layout-flex-7_-_-ms-flex:  7; --layout-flex-7_-_-webkit-flex:  7; --layout-flex-7_-_flex:  7;;
+
+      --layout-flex-8_-_-ms-flex:  8; --layout-flex-8_-_-webkit-flex:  8; --layout-flex-8_-_flex:  8;;
+
+      --layout-flex-9_-_-ms-flex:  9; --layout-flex-9_-_-webkit-flex:  9; --layout-flex-9_-_flex:  9;;
+
+      --layout-flex-10_-_-ms-flex:  10; --layout-flex-10_-_-webkit-flex:  10; --layout-flex-10_-_flex:  10;;
+
+      --layout-flex-11_-_-ms-flex:  11; --layout-flex-11_-_-webkit-flex:  11; --layout-flex-11_-_flex:  11;;
+
+      --layout-flex-12_-_-ms-flex:  12; --layout-flex-12_-_-webkit-flex:  12; --layout-flex-12_-_flex:  12;;
+
+      
+
+      --layout-start_-_-ms-flex-align:  start; --layout-start_-_-webkit-align-items:  flex-start; --layout-start_-_align-items:  flex-start;;
+
+      --layout-center_-_-ms-flex-align:  center; --layout-center_-_-webkit-align-items:  center; --layout-center_-_align-items:  center;;
+
+      --layout-end_-_-ms-flex-align:  end; --layout-end_-_-webkit-align-items:  flex-end; --layout-end_-_align-items:  flex-end;;
+
+      --layout-baseline_-_-ms-flex-align:  baseline; --layout-baseline_-_-webkit-align-items:  baseline; --layout-baseline_-_align-items:  baseline;;
+
+      
+
+      --layout-start-justified_-_-ms-flex-pack:  start; --layout-start-justified_-_-webkit-justify-content:  flex-start; --layout-start-justified_-_justify-content:  flex-start;;
+
+      --layout-center-justified_-_-ms-flex-pack:  center; --layout-center-justified_-_-webkit-justify-content:  center; --layout-center-justified_-_justify-content:  center;;
+
+      --layout-end-justified_-_-ms-flex-pack:  end; --layout-end-justified_-_-webkit-justify-content:  flex-end; --layout-end-justified_-_justify-content:  flex-end;;
+
+      --layout-around-justified_-_-ms-flex-pack:  distribute; --layout-around-justified_-_-webkit-justify-content:  space-around; --layout-around-justified_-_justify-content:  space-around;;
+
+      --layout-justified_-_-ms-flex-pack:  justify; --layout-justified_-_-webkit-justify-content:  space-between; --layout-justified_-_justify-content:  space-between;;
+
+      --layout-center-center_-_-ms-flex-align:  var(--layout-center_-_-ms-flex-align); --layout-center-center_-_-webkit-align-items:  var(--layout-center_-_-webkit-align-items); --layout-center-center_-_align-items:  var(--layout-center_-_align-items); --layout-center-center_-_-ms-flex-pack:  var(--layout-center-justified_-_-ms-flex-pack); --layout-center-center_-_-webkit-justify-content:  var(--layout-center-justified_-_-webkit-justify-content); --layout-center-center_-_justify-content:  var(--layout-center-justified_-_justify-content);;
+
+      
+
+      --layout-self-start_-_-ms-align-self:  flex-start; --layout-self-start_-_-webkit-align-self:  flex-start; --layout-self-start_-_align-self:  flex-start;;
+
+      --layout-self-center_-_-ms-align-self:  center; --layout-self-center_-_-webkit-align-self:  center; --layout-self-center_-_align-self:  center;;
+
+      --layout-self-end_-_-ms-align-self:  flex-end; --layout-self-end_-_-webkit-align-self:  flex-end; --layout-self-end_-_align-self:  flex-end;;
+
+      --layout-self-stretch_-_-ms-align-self:  stretch; --layout-self-stretch_-_-webkit-align-self:  stretch; --layout-self-stretch_-_align-self:  stretch;;
+
+      --layout-self-baseline_-_-ms-align-self:  baseline; --layout-self-baseline_-_-webkit-align-self:  baseline; --layout-self-baseline_-_align-self:  baseline;;
+
+      
+
+      --layout-start-aligned_-_-ms-flex-line-pack:  start; --layout-start-aligned_-_-ms-align-content:  flex-start; --layout-start-aligned_-_-webkit-align-content:  flex-start; --layout-start-aligned_-_align-content:  flex-start;;
+
+      --layout-end-aligned_-_-ms-flex-line-pack:  end; --layout-end-aligned_-_-ms-align-content:  flex-end; --layout-end-aligned_-_-webkit-align-content:  flex-end; --layout-end-aligned_-_align-content:  flex-end;;
+
+      --layout-center-aligned_-_-ms-flex-line-pack:  center; --layout-center-aligned_-_-ms-align-content:  center; --layout-center-aligned_-_-webkit-align-content:  center; --layout-center-aligned_-_align-content:  center;;
+
+      --layout-between-aligned_-_-ms-flex-line-pack:  justify; --layout-between-aligned_-_-ms-align-content:  space-between; --layout-between-aligned_-_-webkit-align-content:  space-between; --layout-between-aligned_-_align-content:  space-between;;
+
+      --layout-around-aligned_-_-ms-flex-line-pack:  distribute; --layout-around-aligned_-_-ms-align-content:  space-around; --layout-around-aligned_-_-webkit-align-content:  space-around; --layout-around-aligned_-_align-content:  space-around;;
+
+      
+
+      --layout-block_-_display:  block;;
+
+      --layout-invisible_-_visibility:  hidden !important;;
+
+      --layout-relative_-_position:  relative;;
+
+      --layout-fit_-_position:  absolute; --layout-fit_-_top:  0; --layout-fit_-_right:  0; --layout-fit_-_bottom:  0; --layout-fit_-_left:  0;;
+
+      --layout-scroll_-_-webkit-overflow-scrolling:  touch; --layout-scroll_-_overflow:  auto;;
+
+      --layout-fullbleed_-_margin:  0; --layout-fullbleed_-_height:  100vh;;
+
+      
+
+      --layout-fixed-top_-_position:  fixed; --layout-fixed-top_-_top:  0; --layout-fixed-top_-_left:  0; --layout-fixed-top_-_right:  0;;
+
+      --layout-fixed-right_-_position:  fixed; --layout-fixed-right_-_top:  0; --layout-fixed-right_-_right:  0; --layout-fixed-right_-_bottom:  0;;
+
+      --layout-fixed-bottom_-_position:  fixed; --layout-fixed-bottom_-_right:  0; --layout-fixed-bottom_-_bottom:  0; --layout-fixed-bottom_-_left:  0;;
+
+      --layout-fixed-left_-_position:  fixed; --layout-fixed-left_-_top:  0; --layout-fixed-left_-_bottom:  0; --layout-fixed-left_-_left:  0;;
+}
+
+</style>
+</custom-style><style>[hidden] { display: none !important; }</style><custom-style>
+  <style is="custom-style">html {
+  --google-red-100: #f4c7c3;
+      --google-red-300: #e67c73;
+      --google-red-500: #db4437;
+      --google-red-700: #c53929;
+
+      --google-blue-100: #c6dafc;
+      --google-blue-300: #7baaf7;
+      --google-blue-500: #4285f4;
+      --google-blue-700: #3367d6;
+
+      --google-green-100: #b7e1cd;
+      --google-green-300: #57bb8a;
+      --google-green-500: #0f9d58;
+      --google-green-700: #0b8043;
+
+      --google-yellow-100: #fce8b2;
+      --google-yellow-300: #f7cb4d;
+      --google-yellow-500: #f4b400;
+      --google-yellow-700: #f09300;
+
+      --google-grey-100: #f5f5f5;
+      --google-grey-300: #e0e0e0;
+      --google-grey-500: #9e9e9e;
+      --google-grey-700: #616161;
+
+      
+
+      --paper-red-50: #ffebee;
+      --paper-red-100: #ffcdd2;
+      --paper-red-200: #ef9a9a;
+      --paper-red-300: #e57373;
+      --paper-red-400: #ef5350;
+      --paper-red-500: #f44336;
+      --paper-red-600: #e53935;
+      --paper-red-700: #d32f2f;
+      --paper-red-800: #c62828;
+      --paper-red-900: #b71c1c;
+      --paper-red-a100: #ff8a80;
+      --paper-red-a200: #ff5252;
+      --paper-red-a400: #ff1744;
+      --paper-red-a700: #d50000;
+
+      --paper-pink-50: #fce4ec;
+      --paper-pink-100: #f8bbd0;
+      --paper-pink-200: #f48fb1;
+      --paper-pink-300: #f06292;
+      --paper-pink-400: #ec407a;
+      --paper-pink-500: #e91e63;
+      --paper-pink-600: #d81b60;
+      --paper-pink-700: #c2185b;
+      --paper-pink-800: #ad1457;
+      --paper-pink-900: #880e4f;
+      --paper-pink-a100: #ff80ab;
+      --paper-pink-a200: #ff4081;
+      --paper-pink-a400: #f50057;
+      --paper-pink-a700: #c51162;
+
+      --paper-purple-50: #f3e5f5;
+      --paper-purple-100: #e1bee7;
+      --paper-purple-200: #ce93d8;
+      --paper-purple-300: #ba68c8;
+      --paper-purple-400: #ab47bc;
+      --paper-purple-500: #9c27b0;
+      --paper-purple-600: #8e24aa;
+      --paper-purple-700: #7b1fa2;
+      --paper-purple-800: #6a1b9a;
+      --paper-purple-900: #4a148c;
+      --paper-purple-a100: #ea80fc;
+      --paper-purple-a200: #e040fb;
+      --paper-purple-a400: #d500f9;
+      --paper-purple-a700: #aa00ff;
+
+      --paper-deep-purple-50: #ede7f6;
+      --paper-deep-purple-100: #d1c4e9;
+      --paper-deep-purple-200: #b39ddb;
+      --paper-deep-purple-300: #9575cd;
+      --paper-deep-purple-400: #7e57c2;
+      --paper-deep-purple-500: #673ab7;
+      --paper-deep-purple-600: #5e35b1;
+      --paper-deep-purple-700: #512da8;
+      --paper-deep-purple-800: #4527a0;
+      --paper-deep-purple-900: #311b92;
+      --paper-deep-purple-a100: #b388ff;
+      --paper-deep-purple-a200: #7c4dff;
+      --paper-deep-purple-a400: #651fff;
+      --paper-deep-purple-a700: #6200ea;
+
+      --paper-indigo-50: #e8eaf6;
+      --paper-indigo-100: #c5cae9;
+      --paper-indigo-200: #9fa8da;
+      --paper-indigo-300: #7986cb;
+      --paper-indigo-400: #5c6bc0;
+      --paper-indigo-500: #3f51b5;
+      --paper-indigo-600: #3949ab;
+      --paper-indigo-700: #303f9f;
+      --paper-indigo-800: #283593;
+      --paper-indigo-900: #1a237e;
+      --paper-indigo-a100: #8c9eff;
+      --paper-indigo-a200: #536dfe;
+      --paper-indigo-a400: #3d5afe;
+      --paper-indigo-a700: #304ffe;
+
+      --paper-blue-50: #e3f2fd;
+      --paper-blue-100: #bbdefb;
+      --paper-blue-200: #90caf9;
+      --paper-blue-300: #64b5f6;
+      --paper-blue-400: #42a5f5;
+      --paper-blue-500: #2196f3;
+      --paper-blue-600: #1e88e5;
+      --paper-blue-700: #1976d2;
+      --paper-blue-800: #1565c0;
+      --paper-blue-900: #0d47a1;
+      --paper-blue-a100: #82b1ff;
+      --paper-blue-a200: #448aff;
+      --paper-blue-a400: #2979ff;
+      --paper-blue-a700: #2962ff;
+
+      --paper-light-blue-50: #e1f5fe;
+      --paper-light-blue-100: #b3e5fc;
+      --paper-light-blue-200: #81d4fa;
+      --paper-light-blue-300: #4fc3f7;
+      --paper-light-blue-400: #29b6f6;
+      --paper-light-blue-500: #03a9f4;
+      --paper-light-blue-600: #039be5;
+      --paper-light-blue-700: #0288d1;
+      --paper-light-blue-800: #0277bd;
+      --paper-light-blue-900: #01579b;
+      --paper-light-blue-a100: #80d8ff;
+      --paper-light-blue-a200: #40c4ff;
+      --paper-light-blue-a400: #00b0ff;
+      --paper-light-blue-a700: #0091ea;
+
+      --paper-cyan-50: #e0f7fa;
+      --paper-cyan-100: #b2ebf2;
+      --paper-cyan-200: #80deea;
+      --paper-cyan-300: #4dd0e1;
+      --paper-cyan-400: #26c6da;
+      --paper-cyan-500: #00bcd4;
+      --paper-cyan-600: #00acc1;
+      --paper-cyan-700: #0097a7;
+      --paper-cyan-800: #00838f;
+      --paper-cyan-900: #006064;
+      --paper-cyan-a100: #84ffff;
+      --paper-cyan-a200: #18ffff;
+      --paper-cyan-a400: #00e5ff;
+      --paper-cyan-a700: #00b8d4;
+
+      --paper-teal-50: #e0f2f1;
+      --paper-teal-100: #b2dfdb;
+      --paper-teal-200: #80cbc4;
+      --paper-teal-300: #4db6ac;
+      --paper-teal-400: #26a69a;
+      --paper-teal-500: #009688;
+      --paper-teal-600: #00897b;
+      --paper-teal-700: #00796b;
+      --paper-teal-800: #00695c;
+      --paper-teal-900: #004d40;
+      --paper-teal-a100: #a7ffeb;
+      --paper-teal-a200: #64ffda;
+      --paper-teal-a400: #1de9b6;
+      --paper-teal-a700: #00bfa5;
+
+      --paper-green-50: #e8f5e9;
+      --paper-green-100: #c8e6c9;
+      --paper-green-200: #a5d6a7;
+      --paper-green-300: #81c784;
+      --paper-green-400: #66bb6a;
+      --paper-green-500: #4caf50;
+      --paper-green-600: #43a047;
+      --paper-green-700: #388e3c;
+      --paper-green-800: #2e7d32;
+      --paper-green-900: #1b5e20;
+      --paper-green-a100: #b9f6ca;
+      --paper-green-a200: #69f0ae;
+      --paper-green-a400: #00e676;
+      --paper-green-a700: #00c853;
+
+      --paper-light-green-50: #f1f8e9;
+      --paper-light-green-100: #dcedc8;
+      --paper-light-green-200: #c5e1a5;
+      --paper-light-green-300: #aed581;
+      --paper-light-green-400: #9ccc65;
+      --paper-light-green-500: #8bc34a;
+      --paper-light-green-600: #7cb342;
+      --paper-light-green-700: #689f38;
+      --paper-light-green-800: #558b2f;
+      --paper-light-green-900: #33691e;
+      --paper-light-green-a100: #ccff90;
+      --paper-light-green-a200: #b2ff59;
+      --paper-light-green-a400: #76ff03;
+      --paper-light-green-a700: #64dd17;
+
+      --paper-lime-50: #f9fbe7;
+      --paper-lime-100: #f0f4c3;
+      --paper-lime-200: #e6ee9c;
+      --paper-lime-300: #dce775;
+      --paper-lime-400: #d4e157;
+      --paper-lime-500: #cddc39;
+      --paper-lime-600: #c0ca33;
+      --paper-lime-700: #afb42b;
+      --paper-lime-800: #9e9d24;
+      --paper-lime-900: #827717;
+      --paper-lime-a100: #f4ff81;
+      --paper-lime-a200: #eeff41;
+      --paper-lime-a400: #c6ff00;
+      --paper-lime-a700: #aeea00;
+
+      --paper-yellow-50: #fffde7;
+      --paper-yellow-100: #fff9c4;
+      --paper-yellow-200: #fff59d;
+      --paper-yellow-300: #fff176;
+      --paper-yellow-400: #ffee58;
+      --paper-yellow-500: #ffeb3b;
+      --paper-yellow-600: #fdd835;
+      --paper-yellow-700: #fbc02d;
+      --paper-yellow-800: #f9a825;
+      --paper-yellow-900: #f57f17;
+      --paper-yellow-a100: #ffff8d;
+      --paper-yellow-a200: #ffff00;
+      --paper-yellow-a400: #ffea00;
+      --paper-yellow-a700: #ffd600;
+
+      --paper-amber-50: #fff8e1;
+      --paper-amber-100: #ffecb3;
+      --paper-amber-200: #ffe082;
+      --paper-amber-300: #ffd54f;
+      --paper-amber-400: #ffca28;
+      --paper-amber-500: #ffc107;
+      --paper-amber-600: #ffb300;
+      --paper-amber-700: #ffa000;
+      --paper-amber-800: #ff8f00;
+      --paper-amber-900: #ff6f00;
+      --paper-amber-a100: #ffe57f;
+      --paper-amber-a200: #ffd740;
+      --paper-amber-a400: #ffc400;
+      --paper-amber-a700: #ffab00;
+
+      --paper-orange-50: #fff3e0;
+      --paper-orange-100: #ffe0b2;
+      --paper-orange-200: #ffcc80;
+      --paper-orange-300: #ffb74d;
+      --paper-orange-400: #ffa726;
+      --paper-orange-500: #ff9800;
+      --paper-orange-600: #fb8c00;
+      --paper-orange-700: #f57c00;
+      --paper-orange-800: #ef6c00;
+      --paper-orange-900: #e65100;
+      --paper-orange-a100: #ffd180;
+      --paper-orange-a200: #ffab40;
+      --paper-orange-a400: #ff9100;
+      --paper-orange-a700: #ff6500;
+
+      --paper-deep-orange-50: #fbe9e7;
+      --paper-deep-orange-100: #ffccbc;
+      --paper-deep-orange-200: #ffab91;
+      --paper-deep-orange-300: #ff8a65;
+      --paper-deep-orange-400: #ff7043;
+      --paper-deep-orange-500: #ff5722;
+      --paper-deep-orange-600: #f4511e;
+      --paper-deep-orange-700: #e64a19;
+      --paper-deep-orange-800: #d84315;
+      --paper-deep-orange-900: #bf360c;
+      --paper-deep-orange-a100: #ff9e80;
+      --paper-deep-orange-a200: #ff6e40;
+      --paper-deep-orange-a400: #ff3d00;
+      --paper-deep-orange-a700: #dd2c00;
+
+      --paper-brown-50: #efebe9;
+      --paper-brown-100: #d7ccc8;
+      --paper-brown-200: #bcaaa4;
+      --paper-brown-300: #a1887f;
+      --paper-brown-400: #8d6e63;
+      --paper-brown-500: #795548;
+      --paper-brown-600: #6d4c41;
+      --paper-brown-700: #5d4037;
+      --paper-brown-800: #4e342e;
+      --paper-brown-900: #3e2723;
+
+      --paper-grey-50: #fafafa;
+      --paper-grey-100: #f5f5f5;
+      --paper-grey-200: #eeeeee;
+      --paper-grey-300: #e0e0e0;
+      --paper-grey-400: #bdbdbd;
+      --paper-grey-500: #9e9e9e;
+      --paper-grey-600: #757575;
+      --paper-grey-700: #616161;
+      --paper-grey-800: #424242;
+      --paper-grey-900: #212121;
+
+      --paper-blue-grey-50: #eceff1;
+      --paper-blue-grey-100: #cfd8dc;
+      --paper-blue-grey-200: #b0bec5;
+      --paper-blue-grey-300: #90a4ae;
+      --paper-blue-grey-400: #78909c;
+      --paper-blue-grey-500: #607d8b;
+      --paper-blue-grey-600: #546e7a;
+      --paper-blue-grey-700: #455a64;
+      --paper-blue-grey-800: #37474f;
+      --paper-blue-grey-900: #263238;
+
+      
+      --dark-divider-opacity: 0.12;
+      --dark-disabled-opacity: 0.38; 
+      --dark-secondary-opacity: 0.54;
+      --dark-primary-opacity: 0.87;
+
+      
+      --light-divider-opacity: 0.12;
+      --light-disabled-opacity: 0.3; 
+      --light-secondary-opacity: 0.7;
+      --light-primary-opacity: 1.0;
+}
+
+</style>
+</custom-style><custom-style>
+  <style is="custom-style">html {
+  --primary-text-color: var(--light-theme-text-color);
+      --primary-background-color: var(--light-theme-background-color);
+      --secondary-text-color: var(--light-theme-secondary-color);
+      --disabled-text-color: var(--light-theme-disabled-color);
+      --divider-color: var(--light-theme-divider-color);
+      --error-color: var(--paper-deep-orange-a700);
+
+      
+      --primary-color: var(--paper-indigo-500);
+      --light-primary-color: var(--paper-indigo-100);
+      --dark-primary-color: var(--paper-indigo-700);
+
+      --accent-color: var(--paper-pink-a200);
+      --light-accent-color: var(--paper-pink-a100);
+      --dark-accent-color: var(--paper-pink-a400);
+
+
+      
+      --light-theme-background-color: #ffffff;
+      --light-theme-base-color: #000000;
+      --light-theme-text-color: var(--paper-grey-900);
+      --light-theme-secondary-color: #737373;  
+      --light-theme-disabled-color: #9b9b9b;  
+      --light-theme-divider-color: #dbdbdb;
+
+      
+      --dark-theme-background-color: var(--paper-grey-900);
+      --dark-theme-base-color: #ffffff;
+      --dark-theme-text-color: #ffffff;
+      --dark-theme-secondary-color: #bcbcbc;  
+      --dark-theme-disabled-color: #646464;  
+      --dark-theme-divider-color: #3c3c3c;
+
+      
+      --text-primary-color: var(--dark-theme-text-color);
+      --default-primary-color: var(--primary-color);
+}
+
+</style>
+</custom-style><script async="" src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/lazy.min.js"></script>
+<script src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/index.js"></script>
+<script src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/api.js"></script>
+
+
+<meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="FCoUpXxc9UroDgKVf3xLP8U4DGcDJwo90i71-jc9lCQ7mWZxLwAN3yTaS2TW4R58nbvCj4eF3hBPQVTR48cg_w">
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport">
+<meta content="1rRsY0INj8RvwB5EF5pwdxt2A2P9aDgAlsICaJ0d5w0" name="google-site-verification">
+<meta content="#3681E4" property="msapplication-TileColor">
+<meta content="/google_standard_32.svg" property="msapplication-TileImage">
+<meta content="{&quot;userId&quot;:97506611,&quot;experimentIds&quot;:[&quot;gamification_ui&quot;,&quot;gamification_leaderboards&quot;,&quot;show_org_catalog_button&quot;,&quot;onramp&quot;,&quot;reroute_new_interview_warmup&quot;,&quot;in_context_all_labs&quot;,&quot;relaunch_for_sso&quot;,&quot;use_mosaic&quot;,&quot;canonical_domain_redirect&quot;,&quot;docebo_sync_org_support&quot;,&quot;relaunch_subscriptions&quot;,&quot;gwg_catalog&quot;,&quot;relaunch_extra&quot;,&quot;switch_path_and_explore_headers&quot;,&quot;innovator_gear_sign_in&quot;,&quot;sso_redirect&quot;,&quot;front_door_landing_page&quot;,&quot;gamification_achievements&quot;,&quot;relaunch_collection_ai&quot;,&quot;entity_api_keys&quot;,&quot;mosaic_skills_lab_recommendation&quot;,&quot;sitemap_poc&quot;,&quot;innovator_sign_in&quot;,&quot;docebo_ux&quot;,&quot;credly_integration_announcement_modal&quot;,&quot;interview_warmup_turndown&quot;,&quot;docebo_sync&quot;,&quot;in_context_view&quot;,&quot;use_docebo_features&quot;,&quot;credly&quot;,&quot;one_tap&quot;,&quot;search_suggestions&quot;,&quot;challenge_lab_fast_track&quot;,&quot;learning_plan_slug&quot;,&quot;remove_gdp_subscription&quot;,&quot;search_autocomplete&quot;,&quot;search_sort_by&quot;,&quot;subscription_ux&quot;,&quot;landing_page&quot;,&quot;gamification&quot;,&quot;org_invite_link&quot;,&quot;oauth_risc_shutoff&quot;,&quot;relaunch&quot;,&quot;learning_plan_search&quot;,&quot;cdn_fonts&quot;,&quot;hide_unpopular_filters&quot;,&quot;gamification_xp&quot;,&quot;catalog_filters_button&quot;,&quot;banner_breadcrumbs&quot;,&quot;gamification_leagues&quot;,&quot;show_new_course_exams&quot;,&quot;wipeout_hard_delete&quot;,&quot;cache_explore_page_result&quot;,&quot;course_exams&quot;,&quot;gamification_streaks&quot;,&quot;catalog_filter_chips&quot;,&quot;gamification_ui_data&quot;,&quot;feedback&quot;,&quot;google_dev_payment&quot;,&quot;dashboard_jobs&quot;,&quot;discovery_lab_duration_estimate&quot;,&quot;search_async&quot;,&quot;alexandria_subscriptions_pagination&quot;]}" name="help-api-product-data">
+<meta content="{&quot;groupIds&quot;:[&quot;non_suadmins&quot;,&quot;students&quot;,&quot;non_organization&quot;,&quot;non_program&quot;]}" name="help-api-custom-data">
+<meta content="In this hands-on lab, you turn your code into a replicated application running on Kubernetes. You create a Node.js app, create a Docker container from it, deploy it to Kubernetes Engine, and scale it up. Watch a short preview &amp;lt;A HREF=&quot;https://youtu.be/fRYEJmRMkQk&quot;&amp;gt;Hello Node Kubernetes, GCP Essentials&amp;lt;/A&amp;gt;." name="description">
+<meta content="Google Skills" name="author">
+<meta content="https://www.skills.google/focuses/564" property="og:url">
+<meta content="Hello Node Kubernetes | Google Skills" property="og:title">
+<meta content="website" property="og:type">
+<meta content="/google_standard_32.svg" property="og:image">
+<meta content="Google Skills" property="og:site_name">
+<meta content="In this hands-on lab, you turn your code into a replicated application running on Kubernetes. You create a Node.js app, create a Docker container from it, deploy it to Kubernetes Engine, and scale it up. Watch a short preview &amp;lt;A HREF=&quot;https://youtu.be/fRYEJmRMkQk&quot;&amp;gt;Hello Node Kubernetes, GCP Essentials&amp;lt;/A&amp;gt;." property="og:description">
+
+
+<link href="https://cdn.qwiklabs.com/X46FrQX4iLxHW5MxL8jICvgZM0evMEKscCeQO%2BazGdo%3D" rel="icon" type="image/x-icon">
+
+
+<link rel="stylesheet" href="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/css.css">
+
+<link rel="stylesheet" href="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/application-c1818def928223b8b15ee62840312242415990f0.css" media="all">
+<link rel="stylesheet" href="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/cookienotificationbar.min.css">
+
+
+<style>
+  :root {
+    --primary-text-on-surface-color: #355d9c;
+    --primary-text-on-surface-color-dark: #2f538b;
+    --primary-text-on-surface-color-darker: #29497a;
+    --primary-text-on-surface-color-darkest: #243e69;
+    --primary-surface-color: #586d8d;
+    --primary-surface-color-rgb: 88,109,141;
+    --primary-surface-color-light: #e0e4eb;
+    --primary-surface-color-lightest: #eff2f5;
+    --text-on-primary-color: #ffffff;
+    --accent-text-on-surface-color: #f000e8;
+    --accent-surface-color: #f9ab00;
+    --accent-surface-color-rgb: 249,171,0;
+    --accent-surface-color-light: #ffefcc;
+    --text-on-accent-color: #000000;
+  }
+</style>
+
+
+
+</head>
+<body class="lab-show l-full no-nav relaunch learner-layout-body relaunch">
+  <ql-drawer-content id="lab-instructions" slot="drawer-content">
+<div class="lab-content-container">
+<div class="alert alert--fake js-alert">
+<p class="alert__message js-alert-message" role="alert"></p>
+<ql-icon-button class="alert__close js-alert-close" icon="clear" type="button"></ql-icon-button>
+<iframe class="l-ie-iframe-fix" tabindex="-1"></iframe>
+</div>
+<div class="lab-content__renderable-instructions js-lab-content">
+<div class="lab-preamble">
+<h1 class="ql-display-large lab-preamble__title">
+Hello Node Kubernetes
+</h1>
+<div class="lab-preamble__details ql-title-medium">
+<span>
+<ql-icon icon="experiment"></ql-icon>
+Lab
+</span>
+<span>
+<ql-icon icon="schedule"></ql-icon>
+25 minutes
+</span>
+<span>
+<ql-icon>universal_currency_alt</ql-icon>
+5 Credits
+</span>
+<span>
+<ql-icon>show_chart</ql-icon>
+Intermediate
+</span>
+</div>
+<div class="lab__rating">
+<a aria-label="Lab Reviews" href="https://www.skills.google/focuses/564/reviews?parent=catalog"><div class="rateit" data-rateit-readonly="true" data-rateit-value="4.6424"><div class="rateit-reset" style="display: none;"></div><div class="rateit-range" style="width: 80px; height: 16px;"><div class="rateit-selected" style="height: 16px; width: 74.2784px;"></div><div class="rateit-hover" style="height:16px"></div></div></div>
+
+</a></div>
+<div class="lab-preamble__ai_notice">
+<ql-infobox>
+<span>
+<ql-icon>info</ql-icon>
+This lab may incorporate AI tools to support your learning.
+</span>
+</ql-infobox>
+</div>
+</div>
+<div class="lab-outline-mobile" id="outline_mobile">
+<div class="header">
+<div class="ql-label-small">Lab instructions and tasks</div>
+<ql-toggle-button expandable="" for="outline_mobile" officon="expand_less" onicon="expand_more" type="button"></ql-toggle-button>
+</div>
+<ul class="lab-content__outline">
+<li><a href="#step1">GSP005</a></li><li><a href="#step2">Overview</a></li><li><a href="#step3">Setup and requirements</a></li><li><a href="#step4">Task 1. Create your Node.js application</a></li><li><a href="#step5">Task 2. Create a Docker container image</a></li><li><a href="#step6">Task 3. Create your cluster</a></li><li><a href="#step7">Task 4. Create your pod</a></li><li><a href="#step8">Task 5. Allow external traffic</a></li><li><a href="#step9">Task 6. Scale up your service</a></li><li><a href="#step10">Task 7. Roll out an upgrade to your service</a></li><li><a href="#step11">Congratulations!</a></li>
+</ul>
+</div>
+<div class="instruction-signed-in-card">
+<div class="lab-mobile-card card elevation-2">
+<button class="js-img-container" aria-haspopup="true"><img src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/send_link_image-5f833bd146929134c423c83e4bb520429ce72180.png"></button>
+<div class="ql-title-large">This content is not yet optimized for mobile devices.</div>
+<div class="ql-body-large">For the best experience, please visit us on a desktop computer using a link sent by email.</div>
+<ql-button href="/focuses/564/resume_on_desktop_email?parent=catalog" icon="link" label="Send link" method="post" type="button"></ql-button>
+</div>
+
+</div>
+
+<div class="markdown-lab-instructions js-markdown-instructions" id="markdown-lab-instructions">
+
+<h2 id="step1">GSP005</h2>
+<p><button class="js-img-container" aria-haspopup="true"><img alt="Google Cloud self-paced labs logo" src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/dW94pPHsWo4RxbyHDUVE7oyXDZS3QNm40RnYsQ9Mf2o=.png"></button></p>
+
+<h2 id="step2">Overview</h2>
+<p>The goal of this hands-on lab is for you to turn code that you have developed into a replicated application running on  <a href="http://kubernetes.io/" target="_blank">Kubernetes</a>, which is running on  <a href="https://cloud.google.com/container-engine/" target="_blank">Kubernetes Engine</a>. For this lab the code will be a simple Hello World node.js app.</p>
+<p>Here's a diagram of the various parts in play in this lab, to help 
+you understand how the pieces fit together with one another. Use this as
+ a reference as you progress through the lab; it should all make sense 
+by the time you get to the end (but feel free to ignore this for now).</p>
+<p><button class="js-img-container" aria-haspopup="true"><img alt="Kubernetes component flow diagram" src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/ZB_LTu_fOBuu7svaY0_ier_SvbJdfF3Lrb_5woXeecI=.png"></button></p>
+<p>Kubernetes is an open source project (available on  <a href="http://kubernetes.io/" target="_blank">kubernetes.io</a>)
+ which can run on many different environments, from laptops to 
+high-availability multi-node clusters; from public clouds to on-premise 
+deployments; from virtual machines to bare metal.</p>
+<p>For the purpose of this lab, using a managed environment such as 
+Kubernetes Engine (a Google-hosted version of Kubernetes running on 
+Compute Engine) will allow you to focus more on experiencing Kubernetes 
+rather than setting up the underlying infrastructure.</p>
+<h3>What you'll learn</h3>
+<ul>
+<li>Create a Node.js server.</li>
+<li>Create a Docker container image.</li>
+<li>Create a container cluster.</li>
+<li>Create a Kubernetes pod.</li>
+<li>Scale up your services.</li>
+</ul>
+<h3>Prerequisites</h3>
+<ul>
+<li>Familiarity with standard Linux text editors such as <code>vim</code>, <code>emacs</code>, or <code>nano</code> will be helpful.</li>
+</ul>
+<p>Students are to type the commands themselves, to help encourage 
+learning of the core concepts. Many labs will include a code block that 
+contains the required commands. You can easily copy and paste the 
+commands from the code block into the appropriate places during the lab.</p>
+<h2 id="step3">Setup and requirements</h2>
+<h3>Before you click the Start Lab button</h3>
+<p>Read these instructions. Labs are timed and you cannot pause them. The timer, which starts when you click <strong>Start Lab</strong>, shows how long Google Cloud resources are made available to you.</p>
+<p>This hands-on lab lets you do the lab activities in a real cloud 
+environment, not in a simulation or demo environment. It does so by 
+giving you new, temporary credentials you use to sign in and access 
+Google Cloud for the duration of the lab.</p>
+<p>To complete this lab, you need:</p>
+<ul>
+<li>Access to a standard internet browser (Chrome browser recommended).</li>
+</ul>
+<ql-warningbox>
+<strong>Note:</strong> Use an Incognito (recommended) or private browser
+ window to run this lab. This prevents conflicts between your personal 
+account and the student account, which may cause extra charges incurred 
+to your personal account.
+</ql-warningbox>
+<ul>
+<li>Time to complete the lab—remember, once you start, you cannot pause a lab.</li>
+</ul>
+<ql-warningbox>
+<strong>Note:</strong> Use only the student account for this lab. If you use a different Google Cloud account, you may incur charges to that account.
+</ql-warningbox>
+
+<h3>How to start your lab and sign in to the Google Cloud console</h3>
+<ol>
+<li>
+<p>Click the <strong>Start Lab</strong> button. If you need to pay for the lab, a dialog opens for you to select your payment method.
+On the left is the Lab Details pane with the following:</p>
+<ul>
+<li>The Open Google Cloud console button</li>
+<li>Time remaining</li>
+<li>The temporary credentials that you must use for this lab</li>
+<li>Other information, if needed, to step through this lab</li>
+</ul>
+</li>
+<li>
+<p>Click <strong>Open Google Cloud console</strong> (or right-click and select <strong>Open Link in Incognito Window</strong> if you are running the Chrome browser).</p>
+<p>The lab spins up resources, and then opens another tab that shows the Sign in page.</p>
+<p><strong><em>Tip:</em></strong> Arrange the tabs in separate windows, side-by-side.</p>
+<ql-infobox>
+<strong>Note: </strong>If you see the <strong>Choose an account</strong> dialog, click <strong>Use Another Account</strong>.        
+ </ql-infobox>
+</li>
+<li>
+<p>If necessary, copy the <strong>Username</strong> below and paste it into the <strong>Sign in</strong> dialog.</p>
+<ql-code-block nowrap="" templated="" language="cpp">
+ {{{user_0.username | "Username"}}}
+ </ql-code-block>
+<p>You can also find the Username in the Lab Details pane.</p>
+</li>
+<li>
+<p>Click <strong>Next</strong>.</p>
+</li>
+<li>
+<p>Copy the <strong>Password</strong> below and paste it into the <strong>Welcome</strong> dialog.</p>
+<ql-code-block nowrap="" templated="" language="cpp">
+ {{{user_0.password | "Password"}}}
+ </ql-code-block>
+<p>You can also find the Password in the Lab Details pane.</p>
+</li>
+<li>
+<p>Click <strong>Next</strong>.</p>
+<ql-infobox>
+<strong>Important: </strong>You must use the credentials the lab provides you. Do not use your Google Cloud account credentials. 
+ </ql-infobox>
+<ql-warningbox>
+<strong>Note: </strong>Using your own Google Cloud account for this lab may incur extra charges.
+ </ql-warningbox>
+</li>
+<li>
+<p>Click through the subsequent pages:</p>
+<ul>
+<li>Accept the terms and conditions.</li>
+<li>Do not add recovery options or two-factor authentication (because this is a temporary account).</li>
+<li>Do not sign up for free trials.</li>
+</ul>
+</li>
+</ol>
+<p>After a few moments, the Google Cloud console opens in this tab.</p>
+<ql-infobox>
+<strong>Note:</strong> To access Google Cloud products and services, click the <strong>Navigation menu</strong> or type the service or product name in the <strong>Search</strong> field.
+<button class="js-img-container" aria-haspopup="true"><img alt="Navigation menu icon and Search field" src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/9Fk8NYFp3quE9mF_ilWF6_lXY9OUBi3UWtb2Ne4uXNU=.png"></button>
+</ql-infobox>
+
+<h3>Activate Cloud Shell</h3>
+<p>Cloud Shell is a virtual machine that is loaded with development 
+tools. It offers a persistent 5GB home directory and runs on the Google 
+Cloud. Cloud Shell provides command-line access to your Google Cloud 
+resources.</p>
+<ol>
+<li>
+<p>Click <strong>Activate Cloud Shell</strong> <button class="js-img-container" aria-haspopup="true"><img alt="Activate Cloud Shell icon" src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/ep8HmqYGdD_kUncAAYpV47OYoHwC8+g0WK_8sidHquE=.png"></button> at the top of the Google Cloud console.</p>
+</li>
+<li>
+<p>Click through the following windows:</p>
+<ul>
+<li>Continue through the Cloud Shell information window.</li>
+<li>Authorize Cloud Shell to use your credentials to make Google Cloud API calls.</li>
+</ul>
+</li>
+</ol>
+<p>When you are connected, you are already authenticated, and the project is set to your <strong>Project_ID</strong>, <ql-variable key="project_0.project_id" placeholder="PROJECT_ID"></ql-variable>. The output contains a line that declares the <strong>Project_ID</strong> for this session:</p>
+<ql-code-block nowrap="" output="" templated="" language="pgsql">
+Your Cloud Platform project in this session is set to {{{project_0.project_id | "PROJECT_ID"}}}
+</ql-code-block>
+<p><code>gcloud</code> is the command-line tool for Google Cloud. It comes pre-installed on Cloud Shell and supports tab-completion.</p>
+<ol start="3">
+<li>(Optional) You can list the active account name with this command:</li>
+</ol>
+<ql-code-block nowrap="" templated="" language="ebnf">
+gcloud auth list
+</ql-code-block>
+<ol start="4">
+<li>Click <strong>Authorize</strong>.</li>
+</ol>
+<p><strong>Output:</strong></p>
+<ql-code-block nowrap="" output="" templated="" language="routeros">
+ACTIVE: *
+ACCOUNT: {{{user_0.username | "ACCOUNT"}}}
+
+To set the active account, run:
+    $ gcloud config set account `ACCOUNT`
+</ql-code-block>
+<ol start="5">
+<li>(Optional) You can list the project ID with this command:</li>
+</ol>
+<ql-code-block language="plaintext">
+gcloud config list project
+</ql-code-block>
+<p><strong>Output:</strong></p>
+<ql-code-block nowrap="" output="" templated="" language="ini">
+[core]
+project = {{{project_0.project_id | "PROJECT_ID"}}}
+</ql-code-block>
+<ql-infobox>
+<strong>Note: </strong>For full documentation of <code>gcloud</code>, in Google Cloud, refer to <a href="https://cloud.google.com/sdk/gcloud" target="_blank">the gcloud CLI overview guide</a>.
+</ql-infobox>
+
+<h2 id="step4">Task 1. Create your Node.js application</h2>
+<p>1.Using Cloud Shell, write a simple Node.js server that you'll deploy to Kubernetes Engine:</p>
+<ql-code-block language="plaintext">
+vi server.js
+</ql-code-block>
+<ol start="2">
+<li>Start the editor:</li>
+</ol>
+<ql-code-block language="plaintext">
+i
+</ql-code-block>
+<ol start="3">
+<li>Add this content to the file:</li>
+</ol>
+<ql-code-block language="plaintext">
+var http = require('http');
+var handleRequest = function(request, response) {
+  response.writeHead(200);
+  response.end("Hello World!");
+}
+var www = http.createServer(handleRequest);
+www.listen(8080);
+</ql-code-block>
+<ql-infobox>
+<strong>Note:</strong> <code>vi</code> is used here, but <code>nano</code> and <code>emacs</code> are also available in Cloud Shell. You can also use the Web-editor feature of CloudShell as described in the <a href="https://cloud.google.com/shell/docs/features#web_editor" target="_blank"> How Cloud Shell works guide</a>.
+</ql-infobox>
+<ol start="4">
+<li>Save the <code>server.js</code> file by pressing <strong>Esc</strong> then:</li>
+</ol>
+<ql-code-block language="plaintext">
+:wq
+</ql-code-block>
+<ol start="5">
+<li>Since Cloud Shell has the <code>node</code> executable installed, run this command to start the node server (the command produces no output):</li>
+</ol>
+<ql-code-block language="plaintext">
+node server.js
+</ql-code-block>
+<ol start="6">
+<li>Use the built-in <a href="https://cloud.google.com/cloud-shell/docs/features#web_preview" target="_blank">Web preview</a> feature of Cloud Shell to open a new browser tab and proxy a request to the instance you just started on port <code>8080</code>.</li>
+</ol>
+<p><button class="js-img-container" aria-haspopup="true"><img alt="Preview on port 8080 highlihgted in the expanded Web preview menu" src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/YdfcYS8qr+_vINwQ2e4EocXEPG7hkJYqE+8vI8EWECM=.png"></button></p>
+<p>A new browser tab will open to display your results:</p>
+<p><button class="js-img-container" aria-haspopup="true"><img alt="Result page with the message: Hello World!" src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/Si2q8aZMVmxlt1eZELd271lVh9W24mbVd5YnZ8iS37g=.png"></button></p>
+<ol start="7">
+<li>Before continuing, return to Cloud Shell and type CTRL+C to stop the running node server.</li>
+</ol>
+<p>Next you will package this application in a Docker container.</p>
+<h2 id="step5">Task 2. Create a Docker container image</h2>
+<ol>
+<li>Next, create a <code>Dockerfile</code> that describes the image you 
+want to build. Docker container images can extend from other existing 
+images, so for this image, we'll extend from an existing Node image:</li>
+</ol>
+<ql-code-block language="plaintext">
+vi Dockerfile
+</ql-code-block>
+<ol start="2">
+<li>Start the editor:</li>
+</ol>
+<ql-code-block language="plaintext">
+i
+</ql-code-block>
+<ol start="3">
+<li>Add this content:</li>
+</ol>
+<ql-code-block language="plaintext">
+FROM node:6.9.2
+EXPOSE 8080
+COPY server.js .
+CMD ["node", "server.js"]
+</ql-code-block>
+<p>This "recipe" for the Docker image will:</p>
+<ul>
+<li>Start from the <code>node</code> image found on the Docker hub.</li>
+<li>Expose port <code>8080</code>.</li>
+<li>Copy your <code>server.js</code> file to the image.</li>
+<li>Start the node server as we previously did manually.</li>
+</ul>
+<ol start="4">
+<li>Save this <code>Dockerfile</code> by pressing ESC, then type:</li>
+</ol>
+<ql-code-block language="plaintext">
+:wq
+</ql-code-block>
+<ol start="5">
+<li>Build the image with the following:</li>
+</ol>
+<ql-code-block language="plaintext">
+docker build -t hello-node:v1 .
+</ql-code-block>
+<p>It'll take some time to download and extract everything, but you can see the progress bars as the image builds.</p>
+<p>Once complete, test the image locally by running a Docker container 
+as a daemon on port 8080 from your newly-created container image.</p>
+<ol start="6">
+<li>Run the Docker container with this command:</li>
+</ol>
+<ql-code-block language="plaintext">
+docker run -d -p 8080:8080 hello-node:v1
+</ql-code-block>
+<p>Your output should look something like this:</p>
+<ql-code-block output="" language="llvm">
+325301e6b2bffd1d0049c621866831316d653c0b25a496d04ce0ec6854cb7998
+</ql-code-block>
+<ol start="7">
+<li>To see your results, use the web preview feature of Cloud Shell. Alternatively use <code>curl</code> from your Cloud Shell prompt:</li>
+</ol>
+<ql-code-block language="plaintext">
+curl http://localhost:8080
+</ql-code-block>
+<p>This is the output you should see:</p>
+<ql-code-block output="" language="erlang-repl">
+Hello World!
+</ql-code-block>
+<ql-infobox>
+<strong>Note:</strong> Full documentation for the <code>docker run</code> command can be found in the <a href="https://docs.docker.com/engine/reference/run/" target="_blank">Docker run reference</a>.
+</ql-infobox>
+<p>Next, stop the running container.</p>
+<ol>
+<li>Find your Docker container ID by running:</li>
+</ol>
+<ql-code-block language="plaintext">
+docker ps
+</ql-code-block>
+<p>Your output you should look like this:</p>
+<ql-code-block output="" language="crmsh">
+CONTAINER ID        IMAGE                              COMMAND
+2c66d0efcbd4        hello-node:v1    "/bin/sh -c 'node
+</ql-code-block>
+<ol start="2">
+<li>Stop the container by running the following, replacing the <code>[CONTAINER ID]</code> with the value provided from the previous step:</li>
+</ol>
+<ql-code-block language="plaintext">
+docker stop [CONTAINER ID]
+</ql-code-block>
+<p>Your console output should resemble the following (your container ID):</p>
+<ql-code-block output="" language="llvm">
+2c66d0efcbd4
+</ql-code-block>
+<p>Now that the image is working as intended, push it to the  <a href="https://cloud.google.com/artifact-registry/" target="_blank">Google Artifact Registry</a>, a private repository for your Docker images, accessible from your Google Cloud projects.</p>
+<ol>
+<li>First you need to create a repository in Artifact Registry. Let's call it <code>my-docker-repo</code>. Run the following command:</li>
+</ol>
+<ql-code-block templated="" language="routeros">
+gcloud artifacts repositories create my-docker-repo \
+    --repository-format=docker \
+    --location={{{ project_0.default_region | YOUR_REGION }}} \
+    --project={{{ project_0.project_id | YOUR_PROJECT_ID }}}
+</ql-code-block>
+<ol start="2">
+<li>Now run the following command to configure docker authentication.</li>
+</ol>
+<ql-code-block language="plaintext">
+gcloud auth configure-docker
+</ql-code-block>
+<p>If Prompted, Do you want to continue (Y/n)?. Enter <strong>Y</strong>.</p>
+<ol start="3">
+<li>To tag your image with the repository name, run this command, replacing <code>PROJECT_ID</code> with your Project ID, found in the Console or the <strong>Lab Details</strong> section of the lab:</li>
+</ol>
+<ql-code-block templated="" language="crmsh">
+docker tag hello-node:v1 {{{ project_0.default_region | YOUR_REGION 
+}}}-docker.pkg.dev/{{{ project_0.project_id | YOUR_PROJECT_ID 
+}}}/my-docker-repo/hello-node:v1
+</ql-code-block>
+<ol start="4">
+<li>And push your container image to the repository by running the following command:</li>
+</ol>
+<ql-code-block templated="" language="crmsh">
+docker push {{{ project_0.default_region | YOUR_REGION 
+}}}-docker.pkg.dev/{{{ project_0.project_id | YOUR_PROJECT_ID 
+}}}/my-docker-repo/hello-node:v1
+</ql-code-block>
+<p>The initial push may take a few minutes to complete. You'll see the progress bars as it builds.</p>
+<ql-code-block output="" language="apache">
+The push refers to a repository [pkg.dev/qwiklabs-gcp-6h281a111f098/hello-node]
+ba6ca48af64e: Pushed
+381c97ba7dc3: Pushed
+604c78617f34: Pushed
+fa18e5ffd316: Pushed
+0a5e2b2ddeaa: Pushed
+53c779688d06: Pushed
+60a0858edcd5: Pushed
+b6ca02dfe5e6: Pushed
+v1: digest: sha256:8a9349a355c8e06a48a1e8906652b9259bba6d594097f115060acca8e3e941a2 size: 2002
+</ql-code-block>
+<ol start="3">
+<li>The container image will be listed in your Console. Click <strong>Navigation menu &gt; View all products</strong>. Then under <strong>CI/CD</strong>, select <strong>Artifact Registry</strong>.</li>
+</ol>
+<p>Now you have a project-wide Docker image available which Kubernetes can access and orchestrate.</p>
+<ql-infobox>
+<strong>Note:</strong> We used the recommended way of working with 
+Artifact Registry, which is specific about which region to use. To learn
+ more, refer to <a href="https://cloud.google.com/artifact-registry/docs/docker/pushing-and-pulling" target="_blank">Pushing and pulling from Artifact Registry</a>.
+</ql-infobox>
+<h2 id="step6">Task 3. Create your cluster</h2>
+<p>Now you're ready to create your Kubernetes Engine cluster. A cluster 
+consists of a Kubernetes master API server hosted by Google and a set of
+ worker nodes. The worker nodes are Compute Engine virtual machines.</p>
+<ol>
+<li>Make sure you have set your project using <code>gcloud</code> (replace <code>PROJECT_ID</code> with your Project ID, found in the console and in the <strong>Lab Details</strong> section of the lab):</li>
+</ol>
+<ql-code-block language="plaintext">
+gcloud config set project PROJECT_ID
+</ql-code-block>
+<ol start="2">
+<li>Create a cluster with two  <a href="https://cloud.google.com/compute/docs/machine-types" target="_blank">e2-medium</a> nodes (this will take a few minutes to complete):</li>
+</ol>
+<ql-code-block language="bash" templated="">
+gcloud container clusters create hello-world \
+                --num-nodes 2 \
+                --machine-type e2-medium \
+                --zone "{{{project_0.default_zone|ZONE}}}"
+</ql-code-block>
+<p>You can safely ignore warnings that come up when the cluster builds.</p>
+<p>The console output should look like this:</p>
+<ql-code-block nowrap="" output="" templated="" language="awk">
+Creating cluster hello-world...done.
+Created 
+[https://container.googleapis.com/v1/projects/PROJECT_ID/
+zones/"{{{project_0.default_zone|ZONE}}}"/clusters/hello-world].
+kubeconfig entry generated for hello-world.
+NAME         ZONE           MASTER_VERSION  MASTER_IP       MACHINE_TYPE
+   STATUS
+hello-world  "{{{project_0.default_zone|ZONE}}}"  1.5.7           
+146.148.46.124  e2-medium  RUNNING
+</ql-code-block>
+<p>Alternatively, you can create this cluster through the Console by opening the Navigation menu and selecting  <strong>Kubernetes Engine &gt; Clusters &gt; Create</strong>.</p>
+<ql-infobox>
+<strong>Note:</strong> It is recommended to create the cluster in the 
+same zone as the storage bucket used by the artifact registry (see 
+previous step).
+</ql-infobox>
+<p>If you select <strong>Navigation menu &gt; Kubernetes Engine &gt; Clusters</strong>, you'll see that you have a fully-functioning Kubernetes cluster powered by Kubernetes Engine.</p>
+<p>It's time to deploy your own containerized application to the Kubernetes cluster! From now on you'll use the <code>kubectl</code> command line (already set up in your Cloud Shell environment).</p>
+<p>Click <strong>Check my progress</strong> below to check your lab progress.</p>
+<ql-activity-tracking step="1">
+    Create your cluster.
+</ql-activity-tracking>
+<h2 id="step7">Task 4. Create your pod</h2>
+<p>A Kubernetes <strong>pod</strong> is a group of containers tied 
+together for administration and networking purposes. It can contain 
+single or multiple containers. Here you'll use one container built with 
+your Node.js image stored in your private artifact registry. It will 
+serve content on port 8080.</p>
+<ol>
+<li>Create a pod with the <code>kubectl run</code> command (replace <code>PROJECT_ID</code> with your Project ID, found in the console and in the <strong>Connection Details</strong> section of the lab):</li>
+</ol>
+<ql-code-block language="bash" templated="">
+kubectl create deployment hello-node \
+    --image={{{ project_0.default_region}}}-docker.pkg.dev/PROJECT_ID/my-docker-repo/hello-node:v1
+</ql-code-block>
+<p><strong>Output:</strong></p>
+<ql-code-block output="" language="crmsh">
+deployment.apps/hello-node created
+</ql-code-block>
+<p>As you can see, you've created a <strong>deployment</strong> object. 
+Deployments are the recommended way to create and scale pods. Here, a 
+new deployment manages a single pod replica running the <code>hello-node:v1</code> image.</p>
+<ol start="2">
+<li>To view the deployment, run:</li>
+</ol>
+<ql-code-block language="plaintext">
+kubectl get deployments
+</ql-code-block>
+<p><strong>Output:</strong></p>
+<ql-code-block output="" language="apache">
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+hello-node   1/1     1            1           1m36s
+</ql-code-block>
+<ol start="3">
+<li>To view the pod created by the deployment, run:</li>
+</ol>
+<ql-code-block language="plaintext">
+kubectl get pods
+</ql-code-block>
+<p><strong>Output:</strong></p>
+<ql-code-block output="" language="apache">
+NAME                         READY     STATUS    RESTARTS   AGE
+hello-node-714049816-ztzrb   1/1       Running   0          6m
+</ql-code-block>
+<p>Now is a good time to go through some interesting <code>kubectl</code> commands. None of these will change the state of the cluster. To view the full reference documentation, refer to <a href="https://cloud.google.com/container-engine/docs/kubectl/" target="_blank">Command line tool (kubectl)</a>:</p>
+<ql-code-block language="plaintext">
+kubectl cluster-info
+</ql-code-block>
+<ql-code-block language="plaintext">
+kubectl config view
+</ql-code-block>
+<p>And for troubleshooting :</p>
+<ql-code-block language="plaintext">
+kubectl get events
+</ql-code-block>
+<ql-code-block language="plaintext">
+kubectl logs &lt;pod-name&gt;
+</ql-code-block>
+<p>You now need to make your pod accessible to the outside world.</p>
+<p>Click <strong>Check my progress</strong> below to check your lab progress.</p>
+<ql-activity-tracking step="2">
+    Create your pod
+</ql-activity-tracking>
+<h2 id="step8">Task 5. Allow external traffic</h2>
+<p>By default, the pod is only accessible by its internal IP within the cluster. In order to make the <code>hello-node</code> container accessible from outside the Kubernetes virtual network, you have to expose the pod as a Kubernetes <strong>service</strong>.</p>
+<ol>
+<li>From Cloud Shell you can expose the pod to the public internet with the <code>kubectl expose</code> command combined with the <code>--type="LoadBalancer"</code> flag. This flag is required for the creation of an externally accessible IP:</li>
+</ol>
+<ql-code-block language="plaintext">
+kubectl expose deployment hello-node --type="LoadBalancer" --port=8080
+</ql-code-block>
+<p><strong>Output:</strong></p>
+<ql-code-block output="" language="crmsh">
+service/hello-node exposed
+</ql-code-block>
+<p>The flag used in this command specifies that it is using the 
+load-balancer provided by the underlying infrastructure (in this case 
+the  <a href="https://cloud.google.com/compute/docs/load-balancing/" target="_blank">Compute Engine load balancer</a>).
+ Note that you expose the deployment, and not the pod, directly. This 
+will cause the resulting service to load balance traffic across all pods
+ managed by the deployment (in this case only 1 pod, but you will add 
+more replicas later).</p>
+<p>The Kubernetes master creates the load balancer and related Compute 
+Engine forwarding rules, target pools, and firewall rules to make the 
+service fully accessible from outside of Google Cloud.</p>
+<ol start="2">
+<li>To find the publicly-accessible IP address of the service, request <code>kubectl</code> to list all the cluster services:</li>
+</ol>
+<ql-code-block language="plaintext">
+kubectl get services
+</ql-code-block>
+<p>This is the output you should see:</p>
+<ql-code-block output="" language="apache">
+NAME         CLUSTER-IP     EXTERNAL-IP      PORT(S)    AGE
+hello-node   10.3.250.149   104.154.90.147   8080/TCP   1m
+kubernetes   10.3.240.1     &lt; none &gt;   443/TCP    5m
+</ql-code-block>
+<p>There are 2 IP addresses listed for your hello-node service, both serving port 8080. The <code>CLUSTER-IP</code> is the internal IP that is only visible inside your cloud virtual network; the <code>EXTERNAL-IP</code> is the external load-balanced IP.</p>
+<ql-infobox><strong>Note:</strong> The <code>EXTERNAL-IP</code> may take several minutes to become available and visible. If the <code>EXTERNAL-IP</code> is missing, wait a few minutes and run the command again.
+</ql-infobox>
+<ol start="3">
+<li>You should now be able to reach the service by pointing your browser to this address: <code>http://&lt;EXTERNAL_IP&gt;:8080</code>
+</li>
+</ol>
+<p><button class="js-img-container" aria-haspopup="true"><img alt="Hello World! page" src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/C36gw9A9wyqza3PveBYBCsMggISATH80A18fqFBck7U=.png"></button></p>
+<p>At this point you've gained several features from moving to 
+containers and Kubernetes - you do not need to specify on which host to 
+run your workload and you also benefit from service monitoring and 
+restart. Now see what else can be gained from your new Kubernetes 
+infrastructure.</p>
+<p>Click <strong>Check my progress</strong> below to check your lab progress.</p>
+<ql-activity-tracking step="3">
+    Create a Kubernetes Service
+</ql-activity-tracking>
+<h2 id="step9">Task 6. Scale up your service</h2>
+<p>One of the powerful features offered by Kubernetes is how easy it is 
+to scale your application. Suppose you suddenly need more capacity. You 
+can tell the replication controller to manage a new number of replicas 
+for your pod.</p>
+<ol>
+<li>Set the number of replicas for your pod:</li>
+</ol>
+<ql-code-block language="plaintext">
+kubectl scale deployment hello-node --replicas=4
+</ql-code-block>
+<p><strong>Output:</strong></p>
+<ql-code-block output="" language="crmsh">
+deployment.extensions/hello-node scaled
+</ql-code-block>
+<ol start="2">
+<li>Request a description of the updated deployment:</li>
+</ol>
+<ql-code-block language="plaintext">
+kubectl get deployment
+</ql-code-block>
+<p><strong>Output:</strong></p>
+<ql-code-block output="" language="apache">
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+hello-node   4/4     4            4           16m
+</ql-code-block>
+<p>Re-run the above command until you see all 4 replicas created.</p>
+<ol start="3">
+<li>List all the pods:</li>
+</ol>
+<ql-code-block language="plaintext">
+kubectl get pods
+</ql-code-block>
+<p>This is the output you should see:</p>
+<ql-code-block output="" language="apache">
+NAME                         READY     STATUS    RESTARTS   AGE
+hello-node-714049816-g4azy   1/1       Running   0          1m
+hello-node-714049816-rk0u6   1/1       Running   0          1m
+hello-node-714049816-sh812   1/1       Running   0          1m
+hello-node-714049816-ztzrb   1/1       Running   0          16m
+</ql-code-block>
+<p>A <strong>declarative approach</strong> is being used here. Rather 
+than starting or stopping new instances, you declare how many instances 
+should be running at all times. Kubernetes reconciliation loops make 
+sure that reality matches what you requested and takes action if needed.</p>
+<p>Here's a diagram summarizing the state of your Kubernetes cluster:</p>
+<p><button class="js-img-container" aria-haspopup="true"><img alt="Kubernetes Cluster flow diagram" src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/xcK5q7mZsGBWS+PbytdmF0W+dsZxvNXdOIEPBXX13X4=.png"></button></p>
+<p>Click <strong>Check my progress</strong> below to check your lab progress.</p>
+<ql-activity-tracking step="4">
+    Scale up your service
+</ql-activity-tracking>
+<h2 id="step10">Task 7. Roll out an upgrade to your service</h2>
+<p>At some point the application that you've deployed to production will
+ require bug fixes or additional features. Kubernetes helps you deploy a
+ new version to production without impacting your users.</p>
+<ol>
+<li>First, modify the application by opening <code>server.js</code>:</li>
+</ol>
+<ql-code-block language="plaintext">
+vi server.js
+</ql-code-block>
+<ql-code-block language="plaintext">
+i
+</ql-code-block>
+<ol start="2">
+<li>Then update the response message:</li>
+</ol>
+<ql-code-block language="bash">
+response.end("Hello Kubernetes World!");
+</ql-code-block>
+<ol start="3">
+<li>Save the <code>server.js</code> file by pressing <strong>Esc</strong> then:</li>
+</ol>
+<ql-code-block language="plaintext">
+:wq
+</ql-code-block>
+<p>Now you can build and publish a new container image to the registry with an incremented tag (<code>v2</code> in this case).</p>
+<ol start="4">
+<li>Run the following commands, replacing <code>PROJECT_ID</code> with your lab project ID:</li>
+</ol>
+<ql-code-block language="plaintext">
+docker build -t hello-node:v2 .
+</ql-code-block>
+<ql-code-block language="bash" templated="">
+docker tag hello-node:v2 {{{ project_0.default_region | YOUR_REGION 
+}}}-docker.pkg.dev/{{{ project_0.project_id | YOUR_PROJECT_ID 
+}}}/my-docker-repo/hello-node:v2 
+</ql-code-block>
+<ql-code-block language="bash" templated="">
+docker push {{{ project_0.default_region | YOUR_REGION 
+}}}-docker.pkg.dev/{{{ project_0.project_id | YOUR_PROJECT_ID 
+}}}/my-docker-repo/hello-node:v2
+</ql-code-block>
+<ql-infobox>
+<strong>Note:</strong> Building and pushing this updated image should be quicker since caching is being taken advantage of.
+</ql-infobox>
+<p>Kubernetes will smoothly update your replication controller to the 
+new version of the application. In order to change the image label for 
+your running container, you will edit the existing <code>hello-node deployment</code> and change the image from <code>pkg.dev/PROJECT_ID/hello-node:v1</code> to <code>pkg.dev/PROJECT_ID/hello-node:v2</code>.</p>
+<ol>
+<li>To do this, use the <code>kubectl edit</code> command:</li>
+</ol>
+<ql-code-block language="plaintext">
+kubectl edit deployment hello-node
+</ql-code-block>
+<p>It opens a text editor displaying the full deployment yaml 
+configuration. It isn't necessary to understand the full yaml config 
+right now, just understand that by updating the <code>spec.template.spec.containers.image</code> field in the config you are telling the deployment to update the pods with the new image.</p>
+<ol start="2">
+<li>Look for <code>Spec</code> &gt; <code>containers</code> &gt; <code>image</code> and change the version number from <strong>v1</strong> to <strong>v2</strong>:</li>
+</ol>
+<ql-code-block language="plaintext">
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: 2016-03-24T17:55:28Z
+  generation: 3
+  labels:
+    run: hello-node
+  name: hello-node
+  namespace: default
+  resourceVersion: "151017"
+  selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/hello-node
+  uid: 981fe302-f1e9-11e5-9a78-42010af00005
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      run: hello-node
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: hello-node
+    spec:
+      containers:
+      - image: pkg.dev/PROJECT_ID/hello-node:v1 ## Update this line ##
+        imagePullPolicy: IfNotPresent
+        name: hello-node
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+</ql-code-block>
+<ol start="3">
+<li>After making the change, save and close this file: Press ESC, then:</li>
+</ol>
+<ql-code-block language="plaintext">
+:wq
+</ql-code-block>
+<p>This is the output you should see:</p>
+<ql-code-block output="" language="crmsh">
+deployment.extensions/hello-node edited
+</ql-code-block>
+<ol start="4">
+<li>Run the following to update the deployment with the new image:</li>
+</ol>
+<ql-code-block language="plaintext">
+kubectl get deployments
+</ql-code-block>
+<p>New pods will be created with the new image and the old pods will be deleted.</p>
+<p>This is the output you should see (you may need to rerun the above command to see the following):</p>
+<ql-code-block output="" language="apache">
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+hello-node   4/4     4            4           1h
+</ql-code-block>
+<p>While this is happening, the users of your services shouldn't see any
+ interruption. After a little while they'll start accessing the new 
+version of your application. You can find more details on rolling 
+updates in the <a href="https://cloud.google.com/container-engine/docs/rolling-updates" target="_blank">Performing a Rolling Update documentation</a>.</p>
+<p>Hopefully with these deployment, scaling, and updated features, once 
+you've set up your Kubernetes Engine cluster, you'll agree that 
+Kubernetes will help you focus on the application rather than the 
+infrastructure.</p>
+<h2 id="step11">Congratulations!</h2>
+<p>This concludes this hands-on lab with Kubernetes. You've only 
+scratched the surface of this technology. Explore with your own pods, 
+replication controllers, and services - and also check out liveness 
+probes (health checks) and consider using the Kubernetes API directly.</p>
+<h3>Next steps / Learn more</h3>
+<ul>
+<li>Check out <strong>Minikube</strong>, which offers a simple setup of a
+ single node kubernetes cluster for development and testing purposes 
+after you take this lab:  <a href="http://kubernetes.io/docs/getting-started-guides/minikube/" target="_blank">http://kubernetes.io/docs/getting-started-guides/minikube/</a>.</li>
+<li>Kubernetes is an open source project ( <a href="http://kubernetes.io/" target="_blank">http://kubernetes.io/</a>) hosted on  <a href="https://github.com/kubernetes/kubernetes" target="_blank">GitHub</a>. Your feedback and contributions are always welcome.</li>
+<li>You can follow the Kubernetes news on  <a href="https://twitter.com/kubernetesio" target="_blank">Twitter</a> and on the  <a href="http://blog.kubernetes.io/" target="_blank">community blog</a>.</li>
+</ul>
+<h3>Google Cloud training and certification</h3>
+<p>...helps you make the most of Google Cloud technologies. <a href="https://cloud.google.com/training" target="_blank">Our classes</a>
+ include technical skills and best practices to help you get up to speed
+ quickly and continue your learning journey. We offer fundamental to 
+advanced level training, with on-demand, live, and virtual options to 
+suit your busy schedule. <a href="https://cloud.google.com/certification/" target="_blank">Certifications</a> help you validate and prove your skill and expertise in Google Cloud technologies.</p>
+
+<p><strong>Manual Last Updated October 28, 2025</strong></p>
+<p><strong>Lab Last Tested October 28, 2025</strong></p>
+<p>Copyright 2026 Google LLC. All rights reserved. Google and the Google
+ logo are trademarks of Google LLC. All other company and product names 
+may be trademarks of the respective companies with which they are 
+associated.</p>
+
+
+
+
+
+</div>
+<dialog class="lab-content__image-overlay js-zoomed-image">
+    <form method="dialog">
+      <button>
+        <img class="lab-content__image" src="Hello%20Node%20Kubernetes%20_%20Google%20Skills_files/ZB_LTu_fOBuu7svaY0_ier_SvbJdfF3Lrb_5woXeecI=.png">
+      </button>
+    </form>
+  </dialog></div>
+
+
+<div class="lab-content__end-lab-button js-end-lab-button-container hidden">
+<ql-lab-control-button class="js-end-lab-button" running=""></ql-lab-control-button>
+</div>
+<!-- / TODO: Move recommendations into the end lab modal -->
+<div class="lab-content__renderable-instructions">
+<turbo-cable-stream-source channel="Turbo::StreamsChannel" signed-stream-name="ImxhYl9yZWNvbW1lbmRhdGlvbnNfNDY4X3VzZXJfOTc1MDY2MTEi--f07f098e74a68eea372825e5954aec57d595b09b92817c70ac51509337cfd949" connected=""></turbo-cable-stream-source>
+<turbo-cable-stream-source channel="Turbo::StreamsChannel" signed-stream-name="ImxhYl9yZWNvbW1lbmRhdGlvbnNfNDY4X3VzZXJfOTc1MDY2MTEi--f07f098e74a68eea372825e5954aec57d595b09b92817c70ac51509337cfd949" connected=""></turbo-cable-stream-source>
+<div id="lab_recommendations_468_user_97506611">
+<div class="lab-content__recommendation">
+<h4 class="ql-headline-medium">
+Ready for more?
+<p>Here's another lab we think you'll like.</p>
+<div class="content-card-grid">
+<a class="wrapper-card-link recommendation-link" href="https://www.skills.google/focuses/967?parent=catalog" onclick="ql.track('clicked_skills_lab_recommend', {});">
+<ql-activity-card aria-label="Distributed Load Testing Using Kubernetes" name="Distributed Load Testing Using Kubernetes" relaunch_extra="" type="lab" viewmode="grid"></ql-activity-card>
+</a>
+</div>
+</h4>
+</div>
+</div>
+
+
+</div>
+</div>
+</ql-drawer-content>
+
+
+</body></html>
